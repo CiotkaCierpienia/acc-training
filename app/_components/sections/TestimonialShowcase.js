@@ -4,8 +4,9 @@ import { flotiqApiClient } from '@/flotiq-api-client';
 export default async function TestimonialShowcase({ header, testimonials }) {
   const ids = testimonials.map(testimonial => testimonial.id);
 
-  const testimonialsHydratedData = (await flotiqApiClient.TestimonialAPI.list({
-    ids
+  const testimonialsHydratedData = (await flotiqApiClient.content.testimonial.list({
+    ids,
+    hydrate: 1,
   })).data;
   const testimonialsHydrated = testimonialsHydratedData.reduce(
     (acc, current) => {

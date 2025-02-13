@@ -1,8 +1,11 @@
 import { flotiqApiClient } from '@/flotiq-api-client';
+import Link from "next/link";
+import LanguageSwitcher from "@/app/_components/LanguageSwitcher";
 
-export default async function Nav() {
-  const content = await flotiqApiClient.MenuAPI.list({
+export default async function Nav({ lang }) {
+  const content = await flotiqApiClient.content.menu.list({
     limit: 1,
+    hydrate: 1,
   });
   const menu = content.data[0];
   return (
@@ -17,9 +20,10 @@ export default async function Nav() {
           <nav className="hidden md:flex space-x-4">
             {menu.menu.map((item) => (
               <span key={item.link_name}>
-                <a href={item.link} target={item.target}>{item.link_name}</a>
+                <a href={item.link.replace('{lang}', lang)} target={item.target} className="text-gray-900">{item.link_name}</a>
               </span>
             ))}
+            <LanguageSwitcher lang={lang} />
           </nav>
         </div>
       </div>

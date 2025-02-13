@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import {flotiqApiClient} from "@/flotiq-api-client";
 
 export default function Testimonial({testimonial, avatar}) {
   const hasVariant = avatar[0].variants?.find((variant) => variant.name === 'Square');
@@ -7,7 +8,7 @@ export default function Testimonial({testimonial, avatar}) {
       <div dangerouslySetInnerHTML={{ __html: testimonial }} />
       <Image
         alt={avatar[0].alt || ""}
-        src={hasVariant ? `https://api.flotiq.com${avatar[0].url}/variant/Square` : `https://api.flotiq.com${avatar[0].url}`}
+        src={hasVariant ? `https://api.flotiq.com${avatar[0].url}/variant/Square` : flotiqApiClient.helpers.getMediaUrl(avatar[0])}
         className="rounded-full"
         width={100}
         height={100}
